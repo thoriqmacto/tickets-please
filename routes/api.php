@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 // http://tickets-please/api/tickets/{id}/edit
 // http://tickets-please/api/tickets/{id}/delete
+// http://tickets-please/api/v1/tickets
 // Resource:
 // 1) tickets
 // 2) users
@@ -15,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'register']);
 
-Route::get('/tickets',function(){
-    return Ticket::all();
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
 });
