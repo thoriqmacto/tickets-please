@@ -25,6 +25,7 @@ class TicketResource extends JsonResource
                     $request->routeIs('tickets.show'),
                     $this->description
                 ),
+                'status' => $this->status,
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at
             ],
@@ -35,15 +36,13 @@ class TicketResource extends JsonResource
                         'id' => $this->user_id
                     ],
                     'links' => [
-                        ['self' => 'todo']
+                        'self' => route('users.show', ['user'=>$this->user_id])
                     ]
                 ]
             ],
-            'includes' => [
-                new UserResource($this->user)
-            ],
+            'includes' => new UserResource($this->whenLoaded('author')),
             'links' =>[
-                ['self' => route('tickets.show', ['ticket'=>$this->id])]
+                'self' => route('tickets.show', ['ticket'=>$this->id])
             ]
         ];
     }
